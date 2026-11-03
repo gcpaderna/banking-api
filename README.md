@@ -69,7 +69,27 @@ Content-Type: application/json
 
 Stack traces are never included in error responses.
 
-## Running Locally
+## Running with Docker (recommended)
+
+The only requirement is Docker. It runs the app and MySQL together, and the database is created from `schema.sql` with sample data.
+
+1. Copy `.env.example` to `.env` and fill in the values:
+   ```
+   DB_PASSWORD=pick_any_password
+   ANTHROPIC_API_KEY=your_anthropic_api_key
+   ```
+   The AI insights endpoint needs a valid Anthropic API key. Without one, it returns 503 and every other endpoint still works.
+2. Start everything:
+   ```bash
+   docker compose up --build -d
+   ```
+3. Open Swagger UI: http://localhost:8080/swagger-ui/index.html
+4. Stop it:
+   ```bash
+   docker compose down
+   ```
+
+## Running Locally (without Docker)
 
 ### 1. Prerequisites
 
@@ -95,6 +115,7 @@ Credentials come from environment variables and are never committed.
 ```bash
 export DB_USERNAME=your_mysql_user
 export DB_PASSWORD=your_mysql_password
+export ANTHROPIC_API_KEY=your_anthropic_api_key
 ```
 
 ### 4. Run
@@ -110,6 +131,6 @@ Open Swagger UI: http://localhost:8080/swagger-ui/index.html
 
 ## Roadmap
 
-- [ ] AI insights endpoint: Java computes the totals and category breakdown, and the LLM only writes them up as a short summary
-- [ ] Docker Compose setup (app + MySQL)
+- [x] AI insights endpoint: Java computes the totals and category breakdown, and the LLM only writes them up as a short summary
+- [x] Docker Compose setup (app + MySQL)
 - [ ] JUnit tests for the service layer
